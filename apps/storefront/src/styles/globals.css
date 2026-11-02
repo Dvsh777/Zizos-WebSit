@@ -1,0 +1,213 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/*
+ * FORSTEK palette: an obsidian ground, white text, slate borders and one flat
+ * accent. The -rgb channels let Tailwind apply opacity modifiers, for example
+ * bg-brand-canvas/80 (see tailwind.config.js).
+ */
+:root {
+  --brand-canvas-rgb: 10 10 12; /* #0a0a0c page ground */
+  --brand-surface-rgb: 17 17 20; /* #111114 one tone step up */
+  --brand-card-rgb: 24 24 27; /* #18181b raised surfaces */
+  --brand-line-rgb: 39 39 42; /* #27272a borders */
+  --brand-text-rgb: 250 250 250; /* #fafafa */
+  --brand-muted-rgb: 161 161 170; /* #a1a1aa secondary text */
+  --brand-accent-rgb: 198 255 61; /* #c6ff3d the one accent */
+  --brand-whatsapp-rgb: 37 211 102; /* #25d366 WhatsApp actions only */
+}
+
+/*
+ * The html element carries class="dark" (see app/layout.tsx), which switches on
+ * the Medusa UI dark tokens. These overrides have higher specificity and map
+ * every ui-* Tailwind color onto the FORSTEK palette.
+ */
+html.dark,
+html[data-mode="dark"] {
+  color-scheme: dark;
+
+  --bg-base: #0a0a0c;
+  --bg-base-hover: #111114;
+  --bg-base-pressed: #18181b;
+  --bg-subtle: #111114;
+  --bg-subtle-hover: #16161a;
+  --bg-subtle-pressed: #1c1c21;
+  --bg-component: #18181b;
+  --bg-component-hover: #1f1f23;
+  --bg-component-pressed: #27272a;
+  --bg-field: #111114;
+  --bg-field-hover: #16161a;
+  --bg-field-component: #18181b;
+  --bg-field-component-hover: #1f1f23;
+  --bg-interactive: #c6ff3d;
+  --bg-highlight: rgba(198, 255, 61, 0.1);
+  --bg-highlight-hover: rgba(198, 255, 61, 0.16);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+
+  --fg-base: #fafafa;
+  --fg-subtle: #d4d4d8;
+  --fg-muted: #a1a1aa;
+  --fg-disabled: #52525b;
+  --fg-interactive: #c6ff3d;
+  --fg-interactive-hover: #d9ff7a;
+  --fg-on-color: #0a0a0c;
+
+  --border-base: #27272a;
+  --border-strong: #3f3f46;
+  --border-interactive: #c6ff3d;
+}
+
+@layer base {
+  html {
+    background-color: rgb(var(--brand-canvas-rgb));
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--bg-base);
+    color: var(--fg-base);
+    /* clip, not hidden: no horizontal page scroll, and sticky still works. */
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand-accent-rgb));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: rgb(var(--brand-accent-rgb));
+    color: #0a0a0c;
+  }
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label {
+    @apply -translate-y-2 text-xsmall-regular;
+  }
+
+  input:focus ~ label {
+    @apply left-0;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: 1px solid #3f3f46;
+    -webkit-text-fill-color: #fafafa;
+    -webkit-box-shadow: 0 0 0px 1000px #111114 inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
+
+  /* Keeps fixed bottom bars clear of the iPhone home indicator. */
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+@layer components {
+  .content-container {
+    @apply max-w-[1440px] w-full mx-auto px-4 xsmall:px-6;
+  }
+
+  .contrast-btn {
+    @apply px-4 py-2 border border-brand-text rounded-full hover:bg-brand-text hover:text-brand-canvas transition-colors duration-200 ease-in;
+  }
+
+  .text-xsmall-regular {
+    @apply text-[10px] leading-4 font-normal;
+  }
+
+  .text-small-regular {
+    @apply text-xs leading-5 font-normal;
+  }
+
+  .text-small-semi {
+    @apply text-xs leading-5 font-semibold;
+  }
+
+  .text-base-regular {
+    @apply text-sm leading-6 font-normal;
+  }
+
+  .text-base-semi {
+    @apply text-sm leading-6 font-semibold;
+  }
+
+  .text-large-regular {
+    @apply text-base leading-6 font-normal;
+  }
+
+  .text-large-semi {
+    @apply text-base leading-6 font-semibold;
+  }
+
+  .text-xl-regular {
+    @apply text-2xl leading-[36px] font-normal;
+  }
+
+  .text-xl-semi {
+    @apply text-2xl leading-[36px] font-semibold;
+  }
+
+  .text-2xl-regular {
+    @apply text-[30px] leading-[48px] font-normal;
+  }
+
+  .text-2xl-semi {
+    @apply text-[30px] leading-[48px] font-semibold;
+  }
+
+  .text-3xl-regular {
+    @apply text-[32px] leading-[44px] font-normal;
+  }
+
+  .text-3xl-semi {
+    @apply text-[32px] leading-[44px] font-semibold;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
